@@ -1,0 +1,83 @@
+Query 1: Full Dataset Retrieval
+Purpose: Retrieve all documents to evaluate full table scan performance.
+
+db.collection.find({})
+
+
+Query 2: Category-Based Filtering
+Purpose: Evaluate simple conditional filtering based on product category.
+
+db.collection.find({
+  Category: "Electronics"
+})
+
+
+Query 3: Multi-Condition Filtering
+Purpose: Evaluate filtering with multiple conditions.
+
+db.collection.find({
+  Country: "United States",
+  Discount: { $gt: 0.2 }
+})
+
+
+Query 4: Total Sales Calculation (Aggregation)
+Purpose: Evaluate aggregation performance for computing total sales.
+
+db.collection.aggregate([
+  {
+    $group: {
+      _id: null,
+      totalSales: { $sum: "$TotalAmount" }
+    }
+  }
+])
+
+
+Query 5: Sales by Category
+Purpose: Evaluate grouping and aggregation by category.
+
+db.collection.aggregate([
+  {
+    $group: {
+      _id: "$Category",
+      categorySales: { $sum: "$TotalAmount" }
+    }
+  }
+])
+
+
+Query 6: Average Discount by Category
+Purpose: Analyze discount trends using aggregation.
+
+db.collection.aggregate([
+  {
+    $group: {
+      _id: "$Category",
+      avgDiscount: { $avg: "$Discount" }
+    }
+  }
+])
+
+
+Query 7: Sales by Location (United States)
+Purpose: Evaluate aggregation with filtering and grouping.
+
+db.collection.aggregate([
+  {
+    $match: { Country: "United States" }
+  },
+  {
+    $group: {
+      _id: "$State",
+      stateSales: { $sum: "$TotalAmount" }
+    }
+  }
+])
+
+
+Query 8: Sorting by Total Amount
+Purpose: Evaluate sorting performance on numerical attributes.
+
+db.collection.find({})
+  .sort({ TotalAmount: -1 })
